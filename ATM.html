@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - ATM App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/f6f851698f.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      :root {
+        --background-color: #fbfbfd;
+        --accent: #242424;
+        --green: #26a641;
+      }
+
+      * {
+        box-sizing: content-box;
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--background-color);
+        height: 100vh;
+      }
+
+      .login-container {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        padding: 28px 96px 52px 96px;
+        border-radius: 24px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        position: relative;
+      }
+
+      .logo {
+        width: 200px;
+        display: block;
+        margin: auto;
+      }
+
+      h2 {
+        color: var(--accent);
+        text-align: center;
+        font-size: 20px;
+        margin: 12px 0 0 0;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        margin: 32px 0 0 0;
+      }
+
+      .input-title {
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: 900;
+        transform: translate(24px, 8px);
+        background-color: white;
+        color: #626262;
+        width: fit-content;
+        padding: 0 8px;
+      }
+
+      .input-title.error {
+        color: red;
+      }
+
+      .input-container {
+        border: 1px solid #cdcdcd;
+        border-radius: 24px;
+        margin: 0 0 24px 0;
+        overflow: hidden;
+      }
+
+      .input-container.error {
+        border: 2px solid red;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 12px;
+        display: block;
+        transform: translate(8px, -16px);
+      }
+
+      input {
+        border: none;
+        width: 100%;
+        padding: 20px 36px;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      input::placeholder {
+        font-weight: 400;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      /* To override style of saved passsword */
+      input:-webkit-autofill {
+        -webkit-box-shadow: 200px 200px 100px white inset;
+        box-shadow: 200px 200px 100px white inset;
+      }
+
+      button {
+        background-color: var(--accent);
+        border-radius: 24px;
+        padding: 20px;
+        color: white;
+        font-weight: 600;
+        transition: all ease-in-out 125ms;
+        margin: 8px 0 0 0;
+        cursor: pointer;
+      }
+
+      button:hover {
+        opacity: 0.85;
+      }
+
+      .forgot,
+      .github {
+        margin: 32px 0 0 0;
+        color: var(--accent);
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all ease-in-out 0.25s;
+      }
+
+      .forgot:hover {
+        text-decoration: underline;
+        opacity: 0.85;
+      }
+
+      .github {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+      }
+
+      .github > i {
+        font-size: 18px;
+        margin-right: 8px;
+      }
+
+      .github:hover {
+        color: var(--green);
+      }
+
+      .modal {
+        display: none;
+        position: absolute;
+        background-color: white;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        border-radius: 24px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .modal-content {
+        font-weight: 500;
+        font-size: 20px;
+        text-align: center;
+      }
+
+      @media screen and (max-width: 768px) {
+        body {
+          background-color: white;
+        }
+
+        .login-container {
+          width: 100%;
+          padding: 0 24px;
+          box-shadow: none;
+        }
+
+        .input-container {
+          margin: 0 0 16px 0;
+        }
+
+        input {
+          padding: 28px 20px;
+        }
+
+        .modal {
+          box-shadow: none;
+        }
+
+        .modal-content {
+          font-size: 20px;
+        }
+
+        .forgot {
+          margin-top: 56px;
+        }
+
+        .github {
+          margin-top: 56px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <a href="#"
+        ><img src="https://i.ibb.co/K6JBTVJ/logo.png" alt="logo" class="logo"
+      /></a>
+      <h2>Login to your account</h2>
+      <form class="login-form" id="login-form">
+        <span class="input-title" id="InputTitleMail">Email</span>
+        <div class="input-container">
+          <input
+            type="text"
+            title="Enter the email which linked to your account."
+            id="email"
+            placeholder="Your email goes here..."
+          />
+        </div>
+        <span class="input-title" id="InputTitlePassword">Password</span>
+        <div class="input-container">
+          <input
+            type="password"
+            title="It's totally fine to forget your password!"
+            id="password"
+            placeholder="Your password goes here..."
+          />
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+      <a class="forgot" href="#">Forgot your password?</a>
+      <a class="github" href="https://github.com/victornguyen1004"
+        ><i class="fa-brands fa-github"></i
+        ><span>VictorWebDev's Github </span></a
+      >
+      <!-- Modal for success request -->
+      <div class="modal" id="modal-success">
+        <img
+          src="https://i.gifer.com/7efs.gif"
+          alt="success.gif"
+          class="result-image"
+        />
+        <span class="modal-content"
+          >Login successfully! <br />Thank you for choosing our website!</span
+        >
+      </div>
+    </div>
+  </body>
+  <script>
+    var form = document.getElementById("login-form");
+    var emailInput = document.getElementById("email");
+    var passwordInput = document.getElementById("password");
+    var successModal = document.getElementById("modal-success");
+    var titleMail = document.getElementById("InputTitleMail");
+    var titlePassword = document.getElementById("InputTitlePassword");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const emailValue = emailInput.value;
+      const passwordValue = passwordInput.value;
+
+      emailInput.parentElement.classList.remove("error");
+      passwordInput.parentElement.classList.remove("error");
+      titleMail.classList.remove("error");
+      titlePassword.classList.remove("error");
+
+      const errorMessages = document.querySelectorAll(".error-message");
+      errorMessages.forEach(function (errorMessage) {
+        errorMessage.remove();
+      });
+
+      if (!emailRegex.test(emailValue)) {
+        // Add error styles and display error message outside the container
+        emailInput.parentElement.classList.add("error");
+        titleMail.classList.add("error");
+        const emailError = document.createElement("span");
+        emailError.classList.add("error-message");
+        emailError.textContent = "Please enter a valid email address.";
+        form.insertBefore(emailError, form.childNodes[4]); // Insert error message after the email input container
+        return;
+      }
+
+      if (!passwordRegex.test(passwordValue)) {
+        // Add error styles and display error message outside the container
+        passwordInput.parentElement.classList.add("error");
+        titlePassword.classList.add("error");
+        const passwordError = document.createElement("span");
+        passwordError.classList.add("error-message");
+        passwordError.textContent =
+          "Please enter a valid password. It must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.";
+        form.insertBefore(passwordError, form.childNodes[8]); // Insert error message after the password input container
+        return;
+      }
+
+      // Clear any previous error messages and styles
+      emailInput.parentElement.classList.remove("error");
+      passwordInput.parentElement.classList.remove("error");
+
+      // if (!emailRegex.test(emailValue)) {
+      //   emailInput.parentElement.classList.add("error");
+      //   const emailError = document.createElement("span");
+      //   emailError.classList.add("error-message");
+      //   emailError.textContent = "Please enter a valid email address.";
+      //   emailInput.parentElement.appendChild(emailError);
+      //   return;
+      // }
+
+      // if (!passwordRegex.test(passwordValue)) {
+      //   passwordInput.parentElement.classList.add("error");
+      //   const passwordError = document.createElement("span");
+      //   passwordError.classList.add("error-message");
+      //   passwordError.textContent =
+      //     "Please enter a valid password. It must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.";
+      //   passwordInput.parentElement.appendChild(passwordError);
+      //   return;
+      // }
+
+      // emailInput.parentElement.classList.remove("error");
+      // passwordInput.parentElement.classList.remove("error");
+
+      successModal.style.opacity = "1";
+      successModal.style.display = "flex";
+
+      setTimeout(function () {
+        successModal.style.opacity = "0";
+        setTimeout(function () {
+          successModal.style.display = "none";
+        }, 500);
+      }, 3000);
+    });
+  </script>
+</html>
